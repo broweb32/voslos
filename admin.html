@@ -931,10 +931,6 @@
             editProductOldImage = product.image_url;
             editSelectedFile = null;
             editSelectedFile = null;
-
-            document.getElementById('edit-product-strike-rate').value =
-                product.strike_rate || '';
-
             document.getElementById('edit-product-name').value = product.name;
             document.getElementById('edit-product-rate').value = product.rate;
 
@@ -965,11 +961,15 @@
             document.getElementById('edit-modal').classList.add('open');
         }
 
-        function closeEdit() {
-            document.getElementById('edit-modal').classList.remove('open');
-            document.getElementById('edit-img-file').value = '';
-            editselectedFiles = [];
-        }
+    function closeEdit() {
+
+        document.getElementById('edit-modal')
+            .classList.remove('open');
+
+        document.getElementById('edit-img-file').value = '';
+
+        editSelectedFile = null;
+    }
 
         function editPreviewImage(input) {
             editSelectedFile = input.files[0];
@@ -1022,6 +1022,9 @@
             const rate =
                 document.getElementById('edit-product-rate').value;
 
+                const strikeRate =
+               document.getElementById('edit-product-strike-rate').value;
+
             const sizes =
                 getEditSelectedSizes();
 
@@ -1073,6 +1076,7 @@
                 .update({
                     name,
                     rate: Number(rate),
+                    strike_rate: strikeRate ? Number(strikeRate) : null,
                     gender: getEditSelectedGender(),
                     sizes,
                     image_url: imageUrl
