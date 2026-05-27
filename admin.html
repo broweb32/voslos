@@ -95,6 +95,10 @@
                                     <option value="Shirts">Shirts</option>
                                     <option value="T-Shirts">T-Shirts</option>
                                     <option value="Pants">Pants</option>
+                                    <option value="sunglasses">Sunglasses</option>
+                                    <option value="socks">T-Socks</option>
+                                    <option value="gadgets">Gadgets</option>
+                                    
                                 </select>
 
                                 <label class="sizes-label">Gender</label>
@@ -924,8 +928,8 @@
         function openEdit(product) {
             editProductId = product.id;
             editProductOldImage = product.image_url;
-            editselectedFiles = [];
-            editCustomSizes = [];
+            editSelectedFile = null;
+            editSelectedFile = null;
 
             document.getElementById('edit-product-strike-rate').value =
                 product.strike_rate || '';
@@ -1009,62 +1013,89 @@
 
             const colors = getSelectedColors();
 
-        async function saveEdit() {
-            const name = document.getElementById('edit-product-name').value.trim();
-            const strikeRate = document.getElementById('edit-product-strike-rate').value;
-            const rate = document.getElementById('edit-product-rate').value;
-            
-            const sizes = getEditSelectedSizes();
-            if (!name) { showToast('Enter product name', 'error'); return; }
-           
-            if (category === 'Watches') {
+       async function saveEdit() {
 
-    if (colors.length === 0) {
+            const name =
+                document.getElementById('edit-product-name').value.trim();
 
-        showToast('Select at least one color', 'error');
+            const rate =
+                document.getElementById('edit-product-rate').value;
 
-        return;
-    }
+            const sizes =
+                getEditSelectedSizes();
 
-} else {
+            if (!name) {
+                showToast('Enter product name', 'error');
+                return;
+            }
 
-    if (sizes.length === 0) {
+            if (!rate || Number(rate) <= 0) {
+                showToast('Enter valid price', 'error');
+                return;
+            }
 
-        showToast('Select at least one size', 'error');
+            if (sizes.length === 0) {
+                showToast('Select at least one size', 'error');
+                return;
+            }
 
-        return;
-    }
-}
+            const saveBtn =
+                document.querySelector('.modal-save-btn');
 
-            if (!rate || Number(rate) <= 0) { showToast('Enter valid price', 'error'); return; }
-
-            const saveBtn = document.querySelector('.modal-save-btn');
-            saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving…';
 
             let imageUrl = editProductOldImage;
+
+            // upload new image if selected
             if (editSelectedFile) {
-                imageUrl = await uploadImage(editSelectedFile, 'edit-upload-progress', 'edit-upload-progress-bar');
-                if (!imageUrl) { saveBtn.disabled = false; saveBtn.textContent = 'Save Changes'; return; }
+
+                imageUrl = await uploadImage(
+                    editSelectedFile,
+                    'edit-upload-progress',
+                    'edit-upload-progress-bar'
+                );
+
+                if (!imageUrl) {
+
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save Changes';
+
+                    return;
+                }
+
                 deleteOldImage(editProductOldImage);
             }
 
-            const { error } = await db.from('products').update({
-                name,
-                rate: Number(rate),
-                strike_rate: strikeRate ? Number(strikeRate) : null,
-                gender: getEditSelectedGender(),   // ← add this line
-                sizes,
-                image_url: imageUrl
-            }).eq('id', editProductId);
+            const { error } = await db
+                .from('products')
+                .update({
+                    name,
+                    rate: Number(rate),
+                    gender: getEditSelectedGender(),
+                    sizes,
+                    image_url: imageUrl
+                })
+                .eq('id', editProductId);
 
-            saveBtn.disabled = false; saveBtn.textContent = 'Save Changes';
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Changes';
 
-            if (error) { showToast('Update failed', 'error'); return; }
+            if (error) {
+
+                console.log(error);
+
+                showToast('Update failed', 'error');
+
+                return;
+            }
+
             showToast('Product updated!', 'success');
+
             closeEdit();
+
             loadProducts();
         }
-
         // ── DELETE ──
         function promptDelete(id, imageUrl) {
             deleteProductId = id;
