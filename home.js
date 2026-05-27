@@ -193,7 +193,8 @@ function sendWhatsApp(){
 }
 
 /* ===== UI events ===== */
-function initEvents(){
+function initEvents() {
+  document.getElementById('mobile-close').addEventListener('click', closeMobileNav);
   // category chips
   document.getElementById('cat-chips').addEventListener('click', e=>{
     const b = e.target.closest('.chip'); if(!b) return;

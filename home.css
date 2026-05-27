@@ -173,6 +173,42 @@ body{
   background:#fff;color:#0a0a0a;padding:14px 0;overflow:hidden;
   border-top:1px solid #222;
 }
+.mobile-close{
+  display:none;
+}
+
+@media (max-width:768px){
+
+  .mobile-close{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:absolute;
+    top:18px;
+    right:18px;
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+    background:#1a1a1a;
+    color:#fff;
+
+    font-size:22px;
+    font-weight:700;
+
+    border:1px solid #333;
+
+    transition:.25s;
+  }
+
+  .mobile-close:hover{
+    background:#fff;
+    color:#000;
+  }
+
+}
 .marquee-track{
   display:flex;gap:32px;white-space:nowrap;
   animation:scroll-x 25s linear infinite;
