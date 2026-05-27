@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voslos Wears — Chase the sneakers dream </title>
+    <meta name="description"
+        content="Voslos Wears —  watches, shirts, t-shirts, pants, jerseys & football boots. All India delivery available. Store based in Kannur." />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="home.css" />
+</head>
+
+<body>
+
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <button class="menu-btn" id="menu-btn" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#" class="brand">
+                <img src="image.png" alt="Voslos" class="brand-logo" />
+                <div class="brand-text">
+                    <div class="brand-name">VOSLOS</div>
+                    <div class="brand-sub">estd 2025</div>
+                </div>
+            </a>
+            <nav class="main-nav" id="main-nav">
+                <a href="#" data-filter-cat="all" class="nav-link active">HOME</a>
+                <a href="#" data-filter-cat="watches" class="nav-link">WATCHES</a>
+                <a href="#" data-filter-cat="shirts" class="nav-link">SHIRTS</a>
+                <a href="#" data-filter-cat="tshirts" class="nav-link">T-SHIRTS</a>
+                <a href="#" data-filter-cat="pants" class="nav-link">PANTS</a>
+                <a href="#" data-filter-cat="jerseys" class="nav-link">JERSEYS</a>
+                <a href="#" data-filter-cat="football-boots" class="nav-link">FOOTBALL BOOTS</a>
+                <a href="#" data-filter-gender="men" class="nav-link">SHOP MEN</a>
+                <a href="#" data-filter-gender="women" class="nav-link">SHOP WOMEN</a>
+                <a href="#contact" class="nav-link">CONTACT</a>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn" id="search-btn" aria-label="Search">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m20 20-3-3" />
+                    </svg>
+                </button>
+                <a class="icon-btn" href="https://wa.me/916235758161" target="_blank" aria-label="WhatsApp">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M16 3C8.8 3 3 8.7 3 15.8c0 2.3.6 4.5 1.8 6.5L3 29l6.9-1.8c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.7 13-12.8C29 8.7 23.2 3 16 3Z"
+                        fill="#25D366" />
+                
+                    <path
+                        d="M22.1 18.7c-.3-.2-1.9-.9-2.2-1s-.5-.1-.7.2-.8 1-1 1.2-.4.2-.7.1c-2-.9-3.3-2.9-3.4-3-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.2s1 2.6 1.2 2.8c.1.2 2 3.2 5 4.3.7.3 1.3.5 1.8.6.8.2 1.5.2 2 .1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.2-.6-.4Z"
+                        fill="white" />
+                </svg>
+                </a>
+            </div>
+        </div>
+        <!-- Search bar -->
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-input" placeholder="Search products..." />
+            <button id="search-close">✕</button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-tag">NEW DROP · 2025</div>
+            <h1 class="hero-title">VOSLOS WEARS</h1>
+            <p class="hero-sub">Watches, apparel & more. Curated for the bold.</p>
+            <div class="hero-cta">
+                <a href="#products" class="btn-primary">SHOP NOW</a>
+                <a href="#contact" class="btn-ghost">CONTACT US</a>
+            </div>
+        </div>
+        <div class="hero-marquee">
+            <div class="marquee-track">
+                <span>VOSLOS WEARS</span><span>★</span>
+                <span>PREMIUM QUALITY</span><span>★</span>
+                <span>ALL INDIA SHIPPING</span><span>★</span>
+                <span>VOSLOS WEARS</span><span>★</span>
+                <span>PREMIUM QUALITY</span><span>★</span>
+                <span>ALL INDIA SHIPPING</span><span>★</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="products-head">
+            <h2 class="page-title">Products</h2>
+            <div class="prod-count"><span id="prod-count">0</span> products</div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-label">Category:</span>
+                <div class="chips" id="cat-chips">
+                    <button class="chip active" data-cat="all">All</button>
+                    <button class="chip" data-cat="watches">Watches</button>
+                    <button class="chip" data-cat="shirts">Shirts</button>
+                    <button class="chip" data-cat="tshirts">T-Shirts</button>
+                    <button class="chip" data-cat="pants">Pants</button>
+                    <button class="chip" data-cat="jerseys">Jerseys</button>
+                    <button class="chip" data-cat="football-boots">Football Boots</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Gender:</span>
+                <div class="chips" id="gender-chips">
+                    <button class="chip active" data-gender="all">All</button>
+                    <button class="chip" data-gender="men">Men</button>
+                    <button class="chip" data-gender="women">Women</button>
+                </div>
+            </div>
+            <div class="filter-group sort-group">
+                <span class="filter-label">Sort by:</span>
+                <select id="sort-by">
+                    <option value="newest">Newest</option>
+                    <option value="az">Alphabetically, A-Z</option>
+                    <option value="za">Alphabetically, Z-A</option>
+                    <option value="low">Price, low to high</option>
+                    <option value="high">Price, high to low</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="product-grid" id="product-grid">
+            <!-- skeleton -->
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+            <p>No products match your filters.</p>
+        </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <section class="contact-section" id="contact">
+        <div class="contact-inner">
+            <img src="image.png" alt="Voslos" class="footer-logo" />
+            <h3>VOSLOS WEARS</h3>
+            <p class="tag">estd 2025 · Kannur, Kerala</p>
+            <div class="contact-grid">
+                <div class="c-box">
+                    <div class="c-ico">🚚</div>
+                    <div class="c-t">All India Delivery</div>
+                    <div class="c-s">Available everywhere</div>
+                </div>
+                <div class="c-box">
+                    <div class="c-ico">💳</div>
+                    <div class="c-t">Prepaid Orders Only</div>
+                    <div class="c-s">Secure checkout</div>
+                </div>
+                <div class="c-box">
+                    <div class="c-ico">💣</div>
+                    <div class="c-t">Store in Kannur</div>
+                    <div class="c-s">Kerala, India</div>
+                </div>
+            </div>
+
+            <a href="https://wa.me/916235758161" class="wa-cta" target="_blank">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M20 3.6A11.9 11.9 0 0 0 3.2 19l-1.2 4.4 4.5-1.2A11.9 11.9 0 1 0 20 3.6Zm-8 19.4a9.4 9.4 0 0 1-4.8-1.3l-.35-.2-2.66.7.7-2.6-.22-.36A9.5 9.5 0 1 1 12 23Zm5.1-7.1c-.3-.15-1.65-.8-1.9-.9s-.45-.15-.65.15-.75.9-.9 1.1-.3.2-.6.05a7.7 7.7 0 0 1-3.85-3.35c-.3-.5.3-.45.85-1.55a.5.5 0 0 0 0-.5c-.05-.15-.65-1.55-.9-2.1s-.5-.5-.65-.5h-.55a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.4 5.85 5.85 0 0 0 1.25 3.15 13.4 13.4 0 0 0 5.2 4.6c1.95.85 2.7.9 3.65.75a3.05 3.05 0 0 0 2-1.4 2.45 2.45 0 0 0 .15-1.4c-.05-.1-.25-.15-.55-.3Z" />
+                </svg>
+                WhatsApp: +91 62357 58161
+            </a>
+
+            <div class="socials">
+                <p class="socials-title">Follow us on Instagram</p>
+                <div class="socials-row">
+                    <a href="https://www.instagram.com/voslos_wears?igsh=MXRtc3dvNXYyMzRucg==" target="_blank" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                        </svg>
+                        @voslos_wears
+                    </a>
+                    <a href="https://www.instagram.com/sclipse_sportox?igsh=MTEwOG93ZGhyMWt6Zg==" target="_blank" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                        </svg>
+                        @sclipse_sportox
+                    </a>
+                    <a href="https://www.instagram.com/street_couture_co?igsh=MTcxNDM1NjRkNmRwNQ==" target="_blank" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                        </svg>
+                        @street_couture_
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">© 2025 Voslos Wears · All rights reserved</div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="modal" id="product-modal" hidden>
+        <div class="modal-backdrop" data-close></div>
+        <div class="modal-card">
+            <button class="modal-close" data-close>✕</button>
+            <div class="modal-grid">
+                <div class="modal-gallery">
+                    <div class="main-img-wrap">
+                        <img id="m-main-img" src="" alt="" />
+                        <span class="sale-badge" id="m-sale">Sale</span>
+                    </div>
+                    <div class="thumb-row" id="m-thumbs"></div>
+                </div>
+                <div class="modal-info">
+                    <div class="brand-line">VOSLOS</div>
+                    <h2 id="m-name"></h2>
+                    <div class="price-line">
+                        <span class="strike" id="m-strike"></span>
+                        <span class="price" id="m-price"></span>
+                        <span class="sale-tag" id="m-sale-tag">Sale</span>
+                    </div>
+                    <p class="desc" id="m-desc"></p>
+
+                    <div class="option-group" id="m-size-group">
+                        <div class="opt-label">Size</div>
+                        <div class="opts" id="m-sizes"></div>
+                    </div>
+                    <div class="option-group" id="m-color-group">
+                        <div class="opt-label">Color</div>
+                        <div class="opts" id="m-colors"></div>
+                    </div>
+
+                    <div class="qty-group">
+                        <div class="opt-label">Quantity</div>
+                        <div class="qty-controls">
+                            <button id="qty-dec">−</button>
+                            <input type="number" id="qty-input" value="1" min="1" />
+                            <button id="qty-inc">+</button>
+                        </div>
+                    </div>
+
+                    <button class="wa-order" id="wa-order">
+<svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M16 3C8.8 3 3 8.7 3 15.8c0 2.3.6 4.5 1.8 6.5L3 29l6.9-1.8c1.9 1 4 1.5 6.1 1.5 7.2 0 13-5.7 13-12.8C29 8.7 23.2 3 16 3Z"
+        fill="#25D366" />
+
+    <path
+        d="M22.1 18.7c-.3-.2-1.9-.9-2.2-1s-.5-.1-.7.2-.8 1-1 1.2-.4.2-.7.1c-2-.9-3.3-2.9-3.4-3-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.2s1 2.6 1.2 2.8c.1.2 2 3.2 5 4.3.7.3 1.3.5 1.8.6.8.2 1.5.2 2 .1.6-.1 1.9-.8 2.2-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.2-.6-.4Z"
+        fill="white" />
+</svg>
+                        ORDER FROM WHATSAPP
+                    </button>
+
+                    <ul class="trust-list">
+                        <li>✓ Secure Checkout</li>
+                        <li>✓ Satisfaction Guaranteed</li>
+                        <li>✓ All India Delivery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="home.js"></script>
+</body>
+
+</html>
