@@ -1,575 +1,440 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Voslos wears – Admin</title>
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
-        rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <title>Voslos wears – Admin</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="style.css">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+            rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <!-- ── LOGIN PAGE ── -->
-    <div id="login-page">
-        <div class="login-bg"></div>
-        <div class="login-card">
-            <div class="login-logo">
-                <div class="login-logo-circle">
-                    <img src="image.png" alt="Voslos" onerror="this.style.display='none'" />
+        <!-- ── LOGIN PAGE ── -->
+        <div id="login-page">
+            <div class="login-bg"></div>
+            <div class="login-card">
+                <div class="login-logo">
+                    <div class="login-logo-circle">
+                        <img src="image.png" alt="Voslos" onerror="this.style.display='none'" />
+                    </div>
+                    <div class="login-title">Voslos wears</div>
+                    <div class="login-sub">Admin Access</div>
                 </div>
-                <div class="login-title">Voslos wears</div>
-                <div class="login-sub">Admin Access</div>
+                <div class="field-group">
+                    <label>Login ID</label>
+                    <input type="text" id="login-id" placeholder="Enter login ID" autocomplete="username" />
+                </div>
+                <div class="field-group">
+                    <label>Password</label>
+                    <input type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password" />
+                </div>
+                <button type="button" class="login-btn" id="login-btn">
+                    Login
+                </button>
+                <div class="login-err" id="login-err">Invalid credentials. Please try again.</div>
             </div>
-            <div class="field-group">
-                <label>Login ID</label>
-                <input type="text" id="login-id" placeholder="Enter login ID" autocomplete="username" />
-            </div>
-            <div class="field-group">
-                <label>Password</label>
-                <input type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password" />
-            </div>
-            <button type="button" class="login-btn" id="login-btn">
-                Login
-            </button>
-            <div class="login-err" id="login-err">Invalid credentials. Please try again.</div>
         </div>
-    </div>
 
-    <!-- ── ADMIN PAGE ── -->
-    <div id="admin-page">
-        <nav class="admin-nav">
-            <div class="nav-brand">
-                <div class="nav-logo-circle">
-                    <img src="image.png" alt="Voslos" onerror="this.style.display='none'" />
+        <!-- ── ADMIN PAGE ── -->
+        <div id="admin-page">
+            <nav class="admin-nav">
+                <div class="nav-brand">
+                    <div class="nav-logo-circle">
+                        <img src="image.png" alt="Voslos" onerror="this.style.display='none'" />
+                    </div>
+                    <div>
+                        <div class="nav-brand-text">Voslos wears</div>
+                        <span class="nav-brand-sub">Admin Panel</span>
+                    </div>
                 </div>
-                <div>
-                    <div class="nav-brand-text">Voslos wears</div>
-                    <span class="nav-brand-sub">Admin Panel</span>
+                <button class="logout-btn" onclick="doLogout()">Logout</button>
+            </nav>
+
+            <div class="admin-body">
+                <div class="section-title">Add Product</div>
+                <div class="section-sub">Upload · Size · Price</div>
+
+                <div class="add-card">
+                    <!-- IMAGE UPLOAD -->
+                    <div class="img-upload-zone" id="upload-zone">
+                        <input type="file" id="product-img-file" accept="image/*" multiple onchange="previewImage(this)" />
+                        <div id="multi-preview" class="multi-preview"></div>
+                        <div class="img-upload-icon">📸</div>
+                        <div class="img-upload-text">Tap to upload<br />product image</div>
+                        <div class="img-upload-overlay">
+                            <span>📷</span>
+                            <span>Change Photo</span>
+                        </div>
+                    </div>
+                    <div class="upload-progress" id="upload-progress">
+                        <div class="upload-progress-bar" id="upload-progress-bar"></div>
+                    </div>
+
+                    <!-- PRODUCT NAME -->
+                    <label class="sizes-label">Product Name</label>
+                    <input type="text" class="name-input" id="product-name"
+                        placeholder="e.g. Oversized Tee, Cargo Pants…" />
+
+            
+                                    <label class="sizes-label">Category</label>
+                                    
+                                    <select class="name-input" id="product-category" onchange="handleCategoryChange()">
+                                        <option value="">Select category</option>
+                                    
+                                        <option value="Shoes">Shoes</option>
+                                        <option value="Watches">Watches</option>
+                                        <option value="Football Boots">Football Boots</option>
+                                        <option value="Jerseys">Jerseys</option>
+                                        <option value="Shirts">Shirts</option>
+                                        <option value="T-Shirts">T-Shirts</option>
+                                        <option value="Pants">Pants</option>
+                                        <option value="sunglasses">Sunglasses</option>
+                                        <option value="socks">Socks</option>
+                                        <option value="track-pants">Track pants</option>
+                                        <option value="gadgets">Gadgets</option>
+                                        
+                                    </select>
+
+                                    <label class="sizes-label">Gender</label>
+                                    <div class="sizes-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                        <div class="size-btn" data-gender="Men" onclick="toggleGender(this)">Men</div>
+                                        <div class="size-btn" data-gender="Women" onclick="toggleGender(this)">Women</div>
+                                        <div class="size-btn active" data-gender="Both" onclick="toggleGender(this)">Both</div>
+                                    </div>
+                    <!-- SIZES -->
+
+                    <label class="sizes-label">Available Sizes</label>
+                    <div class="sizes-grid" id="sizes-grid">
+                        <div class="size-btn" data-size="XS" onclick="toggleSize(this)">XS</div>
+                        <div class="size-btn" data-size="S" onclick="toggleSize(this)">S</div>
+                        <div class="size-btn" data-size="M" onclick="toggleSize(this)">M</div>
+                        <div class="size-btn" data-size="L" onclick="toggleSize(this)">L</div>
+                        <div class="size-btn" data-size="XL" onclick="toggleSize(this)">XL</div>
+                        <div class="size-btn" data-size="XXL" onclick="toggleSize(this)">XXL</div>
+                        <div class="size-btn" data-size="3XL" onclick="toggleSize(this)">3XL</div>
+                        <div class="size-btn" data-size="Free" onclick="toggleSize(this)">Free</div>
+                        <div class="size-btn" data-size="28" onclick="toggleSize(this)">28</div>
+                        <div class="size-btn" data-size="30" onclick="toggleSize(this)">30</div>
+                        <div class="size-btn" data-size="32" onclick="toggleSize(this)">32</div>
+                        <div class="size-btn" data-size="34" onclick="toggleSize(this)">34</div>
+                        <div class="size-btn" data-size="36" onclick="toggleSize(this)">36</div>
+                        <div class="size-btn" data-size="38" onclick="toggleSize(this)">38</div>
+                        <div class="size-btn" data-size="40" onclick="toggleSize(this)">40</div>
+                    </div>
+                    
+                    <div class="custom-tags" id="custom-tags"></div>
+                    <div class="custom-size-row">
+                        <input type="text" class="custom-size-input" id="custom-size-input"
+                            placeholder="Custom size (e.g. 42, 7, XXS)" />
+                        <button class="add-size-btn" onclick="addCustomSize()">+ Add</button>
+                    </div>
+
+                    <!-- COLORS -->
+                    <div id="color-section" style="display:none;">
+                    
+                        <label class="sizes-label">Available Colors</label>
+                    
+                        <div class="sizes-grid" id="colors-grid">
+                            <div class="size-btn" data-color="Black" onclick="toggleColor(this)">Black</div>
+                            <div class="size-btn" data-color="White" onclick="toggleColor(this)">White</div>
+                            <div class="size-btn" data-color="Blue" onclick="toggleColor(this)">Blue</div>
+                            <div class="size-btn" data-color="Red" onclick="toggleColor(this)">Red</div>
+                            <div class="size-btn" data-color="Green" onclick="toggleColor(this)">Green</div>
+                            <div class="size-btn" data-color="Silver" onclick="toggleColor(this)">Silver</div>
+                            <div class="size-btn" data-color="Gold" onclick="toggleColor(this)">Gold</div>
+                        </div>
+                    
+                    </div>
+
+                    <!-- PRICE -->
+                    <label class="sizes-label">Strike Through Price (₹)</label>
+                    <div class="rate-row">
+                        <span class="rate-prefix">₹</span>
+                        <input type="number" class="rate-input" id="product-strike-rate" placeholder="0" min="0" inputmode="numeric" />
+                    </div>
+                    
+                    <label class="sizes-label">Price (₹)</label>
+                    <div class="rate-row">
+                        <span class="rate-prefix">₹</span>
+                        <input type="number" class="rate-input" id="product-rate" placeholder="0" min="0" inputmode="numeric" />
+                    </div>
+
+                    <button class="submit-btn" id="submit-btn" onclick="addProduct()">Add Product</button>
+                </div>
+
+                <!-- PRODUCT LIST -->
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-text">Products (<span id="product-count">0</span>)</div>
+                    <div class="divider-line"></div>
+                </div>
+                <div class="loading-spinner" id="list-spinner"></div>
+                <div class="products-list" id="products-list"></div>
+                <div class="empty-state" id="empty-state" style="display:none;">
+                    <div class="empty-icon">📦</div>
+                    No products yet. Add your first one above!
                 </div>
             </div>
-            <button class="logout-btn" onclick="doLogout()">Logout</button>
-        </nav>
+        </div>
 
-        <div class="admin-body">
-            <div class="section-title">Add Product</div>
-            <div class="section-sub">Upload · Size · Price</div>
+        <!-- EDIT MODAL -->
+        <div class="modal-backdrop" id="edit-modal">
+            <div class="modal">
+                <div class="modal-handle"></div>
+                <div class="modal-title">Edit Product</div>
 
-            <div class="add-card">
-                <!-- IMAGE UPLOAD -->
-                <div class="img-upload-zone" id="upload-zone">
-                    <input type="file" id="product-img-file" accept="image/*" multiple onchange="previewImage(this)" />
-                    <div id="multi-preview" class="multi-preview"></div>
-                    <div class="img-upload-icon">📸</div>
-                    <div class="img-upload-text">Tap to upload<br />product image</div>
+                <div class="img-upload-zone" id="edit-upload-zone" style="aspect-ratio:1;max-height:260px;">
+                    <input type="file" id="edit-img-file" accept="image/*" onchange="editPreviewImage(this)" />
                     <div class="img-upload-overlay">
                         <span>📷</span>
                         <span>Change Photo</span>
                     </div>
                 </div>
-                <div class="upload-progress" id="upload-progress">
-                    <div class="upload-progress-bar" id="upload-progress-bar"></div>
+                <div class="upload-progress" id="edit-upload-progress">
+                    <div class="upload-progress-bar" id="edit-upload-progress-bar"></div>
                 </div>
 
-                <!-- PRODUCT NAME -->
-                <label class="sizes-label">Product Name</label>
-                <input type="text" class="name-input" id="product-name"
-                    placeholder="e.g. Oversized Tee, Cargo Pants…" />
+                <label class="sizes-label" style="margin-top:12px;">Product Name</label>
+                <input type="text" class="name-input" id="edit-product-name" placeholder="Product name" />
 
-        
-                                <label class="sizes-label">Category</label>
-                                
-                                <select class="name-input" id="product-category" onchange="handleCategoryChange()">
-                                    <option value="">Select category</option>
-                                
-                                    <option value="Shoes">Shoes</option>
-                                    <option value="Watches">Watches</option>
-                                    <option value="Football Boots">Football Boots</option>
-                                    <option value="Jerseys">Jerseys</option>
-                                    <option value="Shirts">Shirts</option>
-                                    <option value="T-Shirts">T-Shirts</option>
-                                    <option value="Pants">Pants</option>
-                                    <option value="sunglasses">Sunglasses</option>
-                                    <option value="socks">Socks</option>
-                                    <option value="track-pants">Track pants</option>
-                                    <option value="gadgets">Gadgets</option>
-                                    
-                                </select>
+                <label class="sizes-label">Gender</label>
+                <div class="sizes-grid" id="edit-gender-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div class="size-btn" data-gender="Men" onclick="toggleEditGender(this)">Men</div>
+                    <div class="size-btn" data-gender="Women" onclick="toggleEditGender(this)">Women</div>
+                    <div class="size-btn active" data-gender="Both" onclick="toggleEditGender(this)">Both</div>
+                </div>
 
-                                <label class="sizes-label">Gender</label>
-                                <div class="sizes-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                                    <div class="size-btn" data-gender="Men" onclick="toggleGender(this)">Men</div>
-                                    <div class="size-btn" data-gender="Women" onclick="toggleGender(this)">Women</div>
-                                    <div class="size-btn active" data-gender="Both" onclick="toggleGender(this)">Both</div>
-                                </div>
-                <!-- SIZES -->
+                <!-- CATEGORY -->
+
+
 
                 <label class="sizes-label">Available Sizes</label>
-                <div class="sizes-grid" id="sizes-grid">
-                    <div class="size-btn" data-size="XS" onclick="toggleSize(this)">XS</div>
-                    <div class="size-btn" data-size="S" onclick="toggleSize(this)">S</div>
-                    <div class="size-btn" data-size="M" onclick="toggleSize(this)">M</div>
-                    <div class="size-btn" data-size="L" onclick="toggleSize(this)">L</div>
-                    <div class="size-btn" data-size="XL" onclick="toggleSize(this)">XL</div>
-                    <div class="size-btn" data-size="XXL" onclick="toggleSize(this)">XXL</div>
-                    <div class="size-btn" data-size="3XL" onclick="toggleSize(this)">3XL</div>
-                    <div class="size-btn" data-size="Free" onclick="toggleSize(this)">Free</div>
-                    <div class="size-btn" data-size="28" onclick="toggleSize(this)">28</div>
-                    <div class="size-btn" data-size="30" onclick="toggleSize(this)">30</div>
-                    <div class="size-btn" data-size="32" onclick="toggleSize(this)">32</div>
-                    <div class="size-btn" data-size="34" onclick="toggleSize(this)">34</div>
-                    <div class="size-btn" data-size="36" onclick="toggleSize(this)">36</div>
-                    <div class="size-btn" data-size="38" onclick="toggleSize(this)">38</div>
-                    <div class="size-btn" data-size="40" onclick="toggleSize(this)">40</div>
+                <div class="sizes-grid" id="edit-sizes-grid">
+                    <div class="size-btn" data-size="XS" onclick="toggleEditSize(this)">XS</div>
+                    <div class="size-btn" data-size="S" onclick="toggleEditSize(this)">S</div>
+                    <div class="size-btn" data-size="M" onclick="toggleEditSize(this)">M</div>
+                    <div class="size-btn" data-size="L" onclick="toggleEditSize(this)">L</div>
+                    <div class="size-btn" data-size="XL" onclick="toggleEditSize(this)">XL</div>
+                    <div class="size-btn" data-size="XXL" onclick="toggleEditSize(this)">XXL</div>
+                    <div class="size-btn" data-size="3XL" onclick="toggleEditSize(this)">3XL</div>
+                    <div class="size-btn" data-size="Free" onclick="toggleEditSize(this)">Free</div>
+                    <div class="size-btn" data-size="28" onclick="toggleEditSize(this)">28</div>
+                    <div class="size-btn" data-size="30" onclick="toggleEditSize(this)">30</div>
+                    <div class="size-btn" data-size="32" onclick="toggleEditSize(this)">32</div>
+                    <div class="size-btn" data-size="34" onclick="toggleEditSize(this)">34</div>
+                    <div class="size-btn" data-size="36" onclick="toggleEditSize(this)">36</div>
+                    <div class="size-btn" data-size="38" onclick="toggleEditSize(this)">38</div>
+                    <div class="size-btn" data-size="40" onclick="toggleEditSize(this)">40</div>
                 </div>
-                
-                <div class="custom-tags" id="custom-tags"></div>
+                <div class="custom-tags" id="edit-custom-tags"></div>
                 <div class="custom-size-row">
-                    <input type="text" class="custom-size-input" id="custom-size-input"
-                        placeholder="Custom size (e.g. 42, 7, XXS)" />
-                    <button class="add-size-btn" onclick="addCustomSize()">+ Add</button>
+                    <input type="text" class="custom-size-input" id="edit-custom-size-input" placeholder="Custom size" />
+                    <button class="add-size-btn" onclick="addEditCustomSize()">+ Add</button>
                 </div>
 
-                <!-- COLORS -->
-                <div id="color-section" style="display:none;">
+                <!-- EDIT MODAL -->
                 
-                    <label class="sizes-label">Available Colors</label>
-                
-                    <div class="sizes-grid" id="colors-grid">
-                        <div class="size-btn" data-color="Black" onclick="toggleColor(this)">Black</div>
-                        <div class="size-btn" data-color="White" onclick="toggleColor(this)">White</div>
-                        <div class="size-btn" data-color="Blue" onclick="toggleColor(this)">Blue</div>
-                        <div class="size-btn" data-color="Red" onclick="toggleColor(this)">Red</div>
-                        <div class="size-btn" data-color="Green" onclick="toggleColor(this)">Green</div>
-                        <div class="size-btn" data-color="Silver" onclick="toggleColor(this)">Silver</div>
-                        <div class="size-btn" data-color="Gold" onclick="toggleColor(this)">Gold</div>
-                    </div>
-                
-                </div>
-
-                <!-- PRICE -->
                 <label class="sizes-label">Strike Through Price (₹)</label>
+                
                 <div class="rate-row">
                     <span class="rate-prefix">₹</span>
-                    <input type="number" class="rate-input" id="product-strike-rate" placeholder="0" min="0" inputmode="numeric" />
+                
+                    <input type="number" class="rate-input" id="edit-product-strike-rate" placeholder="0" min="0" inputmode="numeric" />
                 </div>
-
+                
                 <label class="sizes-label">Price (₹)</label>
+                
                 <div class="rate-row">
                     <span class="rate-prefix">₹</span>
-                    <input type="number" class="rate-input" id="product-rate" placeholder="0" min="0"
-                        inputmode="numeric" />
+                
+                    <input type="number" class="rate-input" id="edit-product-rate" placeholder="0" min="0" inputmode="numeric" />
                 </div>
 
-                <button class="submit-btn" id="submit-btn" onclick="addProduct()">Add Product</button>
-            </div>
-
-            <!-- PRODUCT LIST -->
-            <div class="divider">
-                <div class="divider-line"></div>
-                <div class="divider-text">Products (<span id="product-count">0</span>)</div>
-                <div class="divider-line"></div>
-            </div>
-            <div class="loading-spinner" id="list-spinner"></div>
-            <div class="products-list" id="products-list"></div>
-            <div class="empty-state" id="empty-state" style="display:none;">
-                <div class="empty-icon">📦</div>
-                No products yet. Add your first one above!
+                <button class="modal-save-btn" onclick="saveEdit()" style="color: black;">Save Changes</button>
+                <button class="modal-cancel-btn" onclick="closeEdit()">Cancel</button>
             </div>
         </div>
-    </div>
 
-    <!-- EDIT MODAL -->
-    <div class="modal-backdrop" id="edit-modal">
-        <div class="modal">
-            <div class="modal-handle"></div>
-            <div class="modal-title">Edit Product</div>
-
-            <div class="img-upload-zone" id="edit-upload-zone" style="aspect-ratio:1;max-height:260px;">
-                <input type="file" id="edit-img-file" accept="image/*" onchange="editPreviewImage(this)" />
-                <div class="img-upload-overlay">
-                    <span>📷</span>
-                    <span>Change Photo</span>
+        <!-- CONFIRM DELETE MODAL -->
+        <div class="modal-backdrop" id="confirm-modal">
+            <div class="confirm-modal">
+                <div class="modal-handle"></div>
+                <div class="confirm-title">Delete Product?</div>
+                <div class="confirm-text">This will permanently remove the product and its image. This cannot be undone.
+                </div>
+                <div class="confirm-btns">
+                    <button class="confirm-no" onclick="closeConfirm()">Cancel</button>
+                    <button class="confirm-yes" onclick="confirmDelete()">Delete</button>
                 </div>
             </div>
-            <div class="upload-progress" id="edit-upload-progress">
-                <div class="upload-progress-bar" id="edit-upload-progress-bar"></div>
-            </div>
-
-            <label class="sizes-label" style="margin-top:12px;">Product Name</label>
-            <input type="text" class="name-input" id="edit-product-name" placeholder="Product name" />
-
-            <label class="sizes-label">Gender</label>
-            <div class="sizes-grid" id="edit-gender-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                <div class="size-btn" data-gender="Men" onclick="toggleEditGender(this)">Men</div>
-                <div class="size-btn" data-gender="Women" onclick="toggleEditGender(this)">Women</div>
-                <div class="size-btn active" data-gender="Both" onclick="toggleEditGender(this)">Both</div>
-            </div>
-
-            <!-- CATEGORY -->
-
-
-
-            <label class="sizes-label">Available Sizes</label>
-            <div class="sizes-grid" id="edit-sizes-grid">
-                <div class="size-btn" data-size="XS" onclick="toggleEditSize(this)">XS</div>
-                <div class="size-btn" data-size="S" onclick="toggleEditSize(this)">S</div>
-                <div class="size-btn" data-size="M" onclick="toggleEditSize(this)">M</div>
-                <div class="size-btn" data-size="L" onclick="toggleEditSize(this)">L</div>
-                <div class="size-btn" data-size="XL" onclick="toggleEditSize(this)">XL</div>
-                <div class="size-btn" data-size="XXL" onclick="toggleEditSize(this)">XXL</div>
-                <div class="size-btn" data-size="3XL" onclick="toggleEditSize(this)">3XL</div>
-                <div class="size-btn" data-size="Free" onclick="toggleEditSize(this)">Free</div>
-                <div class="size-btn" data-size="28" onclick="toggleEditSize(this)">28</div>
-                <div class="size-btn" data-size="30" onclick="toggleEditSize(this)">30</div>
-                <div class="size-btn" data-size="32" onclick="toggleEditSize(this)">32</div>
-                <div class="size-btn" data-size="34" onclick="toggleEditSize(this)">34</div>
-                <div class="size-btn" data-size="36" onclick="toggleEditSize(this)">36</div>
-                <div class="size-btn" data-size="38" onclick="toggleEditSize(this)">38</div>
-                <div class="size-btn" data-size="40" onclick="toggleEditSize(this)">40</div>
-            </div>
-            <div class="custom-tags" id="edit-custom-tags"></div>
-            <div class="custom-size-row">
-                <input type="text" class="custom-size-input" id="edit-custom-size-input" placeholder="Custom size" />
-                <button class="add-size-btn" onclick="addEditCustomSize()">+ Add</button>
-            </div>
-
-            <label class="sizes-label">Price (₹)</label>
-            <div class="rate-row">
-                <span class="rate-prefix">₹</span>
-                <input type="number" class="rate-input" id="edit-product-rate" placeholder="0" min="0"
-                    inputmode="numeric" />
-            </div>
-
-            <button class="modal-save-btn" onclick="saveEdit()">Save Changes</button>
-            <button class="modal-cancel-btn" onclick="closeEdit()">Cancel</button>
         </div>
-    </div>
 
-    <!-- CONFIRM DELETE MODAL -->
-    <div class="modal-backdrop" id="confirm-modal">
-        <div class="confirm-modal">
-            <div class="modal-handle"></div>
-            <div class="confirm-title">Delete Product?</div>
-            <div class="confirm-text">This will permanently remove the product and its image. This cannot be undone.
-            </div>
-            <div class="confirm-btns">
-                <button class="confirm-no" onclick="closeConfirm()">Cancel</button>
-                <button class="confirm-yes" onclick="confirmDelete()">Delete</button>
-            </div>
-        </div>
-    </div>
+        <!-- TOAST -->
+        <div id="toast"></div>
 
-    <!-- TOAST -->
-    <div id="toast"></div>
+        <script>
+            // ══════════════════════════════════════════════════════
+            //  ⚠️  REPLACE THESE WITH YOUR SUPABASE PROJECT VALUES
+            // ══════════════════════════════════════════════════════
+            const SUPABASE_URL = 'https://mszbhlmijufschossfcj.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zemJobG1panVmc2Nob3NzZmNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4ODQ2MjksImV4cCI6MjA5NTQ2MDYyOX0.J1pWMpHVbRJzjIV6HrbR-0LcCe09J8yuE_WMuuYOkqo';
+            // ══════════════════════════════════════════════════════        
 
-    <script>
-        // ══════════════════════════════════════════════════════
-        //  ⚠️  REPLACE THESE WITH YOUR SUPABASE PROJECT VALUES
-        // ══════════════════════════════════════════════════════
-        const SUPABASE_URL = 'https://mszbhlmijufschossfcj.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zemJobG1panVmc2Nob3NzZmNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4ODQ2MjksImV4cCI6MjA5NTQ2MDYyOX0.J1pWMpHVbRJzjIV6HrbR-0LcCe09J8yuE_WMuuYOkqo';
-        // ══════════════════════════════════════════════════════        
+            const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            // State
+            let selectedFiles = [];
+            let editSelectedFile = null;
+            let editProductId = null;
+            let editProductOldImage = null;
+            let deleteProductId = null;
+            let deleteProductImage = null;
+            let customSizes = [];
+            let editCustomSizes = [];
 
-        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        // State
-        let selectedFiles = [];
-        let editSelectedFile = null;
-        let editProductId = null;
-        let editProductOldImage = null;
-        let deleteProductId = null;
-        let deleteProductImage = null;
-        let customSizes = [];
-        let editCustomSizes = [];
+            // ── AUTH CHECK ON LOAD ──
+            window.addEventListener('DOMContentLoaded', async () => {
+                const { data: { session } } = await db.auth.getSession();
+                if (session?.user) showAdmin();
+                else showLogin();
+            });
 
-        // ── AUTH CHECK ON LOAD ──
-        window.addEventListener('DOMContentLoaded', async () => {
-            const { data: { session } } = await db.auth.getSession();
-            if (session?.user) showAdmin();
-            else showLogin();
-        });
+            // ── LOGIN ──
 
-        // ── LOGIN ──
-
-        // ── LOGIN ──
+            // ── LOGIN ──
 
 
-        async function doLogin() {
-            const id = document.getElementById('login-id').value.trim();
-            const pw = document.getElementById('login-pw').value;
+            async function doLogin() {
+                const id = document.getElementById('login-id').value.trim();
+                const pw = document.getElementById('login-pw').value;
 
-            const btn = document.getElementById('login-btn');
-            const err = document.getElementById('login-err');
+                const btn = document.getElementById('login-btn');
+                const err = document.getElementById('login-err');
 
-            err.style.display = 'none';
+                err.style.display = 'none';
 
-            if (!id || !pw) {
-                showErr('Please fill all fields');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = 'Logging in...';
-
-            console.log("Trying login...");
-
-            try {
-                const { data, error } = await db.auth.signInWithPassword({
-                    email: id,
-                    password: pw
-                });
-
-                console.log(data);
-                console.log(error);
-
-                btn.disabled = false;
-                btn.textContent = 'Login';
-
-                if (error) {
-                    showErr(error.message);
+                if (!id || !pw) {
+                    showErr('Please fill all fields');
                     return;
                 }
 
-                showToast('Login successful!', 'success');
-                showAdmin();
+                btn.disabled = true;
+                btn.textContent = 'Logging in...';
 
-            } catch (e) {
-                console.log(e);
+                console.log("Trying login...");
 
-                btn.disabled = false;
-                btn.textContent = 'Login';
+                try {
+                    const { data, error } = await db.auth.signInWithPassword({
+                        email: id,
+                        password: pw
+                    });
 
-                showErr('Something went wrong');
-            }
-        }
+                    console.log(data);
+                    console.log(error);
 
-        // attach click event AFTER function exists
-        document.getElementById('login-btn').addEventListener('click', doLogin);
-        // Allow Enter key on password field
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Enter' && document.getElementById('login-page').style.display !== 'none') doLogin();
-        });
+                    btn.disabled = false;
+                    btn.textContent = 'Login';
 
-        function showErr(msg) {
-            const el = document.getElementById('login-err');
-
-            el.textContent = msg;
-            el.style.display = 'block';
-
-            // animation
-            el.style.opacity = '0';
-
-            setTimeout(() => {
-                el.style.opacity = '1';
-            }, 10);
-        }
-
-        // ── LOGOUT ──
-        async function doLogout() {
-            await db.auth.signOut();
-            document.getElementById('admin-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'flex';
-            document.getElementById('login-id').value = '';
-            document.getElementById('login-pw').value = '';
-        }
-
-        function showLogin() {
-            document.getElementById('login-page').style.display = 'flex';
-            document.getElementById('admin-page').style.display = 'none';
-        }
-
-        function showAdmin() {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('admin-page').style.display = 'block';
-            loadProducts();
-        }
-
-        // ── IMAGE PREVIEW (ADD FORM) ──
-        function previewImage(input) {
-                const newFiles = [...input.files];
-
-                // add newly selected images also
-                selectedFiles = [...selectedFiles, ...newFiles];
-
-                // remove duplicates by name + size
-                selectedFiles = selectedFiles.filter(
-                    (file, index, self) =>
-                        index === self.findIndex(
-                            f => f.name === file.name && f.size === file.size
-                        )
-                );
-
-                if (!selectedFiles.length) return;
-
-                const zone = document.getElementById('upload-zone');
-                const previewContainer = document.getElementById('multi-preview');
-
-                previewContainer.innerHTML = '';
-
-                selectedFiles.forEach((file, index) => {
-                    const wrapper = document.createElement('div');
-                    wrapper.style.position = 'relative';
-                    wrapper.style.flexShrink = '0';
-
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(file);
-
-                    if (index === 0) {
-                        img.classList.add('main-preview');
+                    if (error) {
+                        showErr(error.message);
+                        return;
                     }
 
-                    // REMOVE BUTTON
-                    const removeBtn = document.createElement('button');
+                    showToast('Login successful!', 'success');
+                    showAdmin();
 
-                    removeBtn.innerHTML = '×';
+                } catch (e) {
+                    console.log(e);
 
-                    removeBtn.style.position = 'absolute';
-                    removeBtn.style.top = '-6px';
-                    removeBtn.style.right = '-6px';
-                    removeBtn.style.width = '24px';
-                    removeBtn.style.height = '24px';
-                    removeBtn.style.borderRadius = '50%';
-                    removeBtn.style.border = 'none';
-                    removeBtn.style.background = '#e05252';
-                    removeBtn.style.color = '#fff';
-                    removeBtn.style.cursor = 'pointer';
-                    removeBtn.style.fontSize = '16px';
-                    removeBtn.style.fontWeight = 'bold';
-                    removeBtn.style.zIndex = '10';
+                    btn.disabled = false;
+                    btn.textContent = 'Login';
 
-                    removeBtn.onclick = (e) => {
-                        e.stopPropagation();
-
-                        selectedFiles.splice(index, 1);
-
-                        // refresh preview
-                        refreshPreview();
-                    };
-
-                    wrapper.appendChild(img);
-                    wrapper.appendChild(removeBtn);
-
-                    previewContainer.appendChild(wrapper);
-                });
-
-                zone.querySelector('.img-upload-icon').style.display = 'none';
-                zone.querySelector('.img-upload-text').style.display = 'none';
-
-                zone.classList.add('has-img');
-
-                // IMPORTANT:
-                // reset input so same image can be selected again later
-                input.value = '';
-            }
-
-           function handleCategoryChange() {
-
-                const category =
-                    document.getElementById('product-category').value;
-
-                const sizesGrid =
-                    document.getElementById('sizes-grid');
-
-                const customSizeRow =
-                    document.querySelector('.custom-size-row');
-
-                const customTags =
-                    document.getElementById('custom-tags');
-
-                const colorSection =
-                    document.getElementById('color-section');
-
-                // WATCHES
-                if (category === 'Watches') {
-
-                    sizesGrid.style.display = 'none';
-                    customSizeRow.style.display = 'none';
-                    customTags.style.display = 'none';
-
-                    colorSection.style.display = 'block';
-                }
-
-                // OTHER PRODUCTS
-                else {
-
-                    sizesGrid.style.display = 'grid';
-                    customSizeRow.style.display = 'flex';
-                    customTags.style.display = 'flex';
-
-                    colorSection.style.display = 'none';
+                    showErr('Something went wrong');
                 }
             }
 
-                function toggleColor(btn) {
-                        btn.classList.toggle('active');
-                    }
+            // attach click event AFTER function exists
+            document.getElementById('login-btn').addEventListener('click', doLogin);
+            // Allow Enter key on password field
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Enter' && document.getElementById('login-page').style.display !== 'none') doLogin();
+            });
 
-                    function getSelectedColors() {
+            function showErr(msg) {
+                const el = document.getElementById('login-err');
 
-                        const buttons =
-                            document.querySelectorAll('#colors-grid .size-btn.active');
+                el.textContent = msg;
+                el.style.display = 'block';
 
-                        return [...buttons].map(btn => btn.dataset.color);
-                    }
+                // animation
+                el.style.opacity = '0';
 
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, 10);
+            }
 
-                    // ── GENDER TOGGLE ──
-                        function toggleGender(btn) {
-                            document.querySelectorAll('[data-gender]').forEach(b => {
-                                if (b.closest('#edit-gender-grid') === null) b.classList.remove('active');
-                            });
-                            btn.classList.add('active');
-                        }
+            // ── LOGOUT ──
+            async function doLogout() {
+                await db.auth.signOut();
+                document.getElementById('admin-page').style.display = 'none';
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('login-id').value = '';
+                document.getElementById('login-pw').value = '';
+            }
 
-                        function getSelectedGender() {
-                            const btn = document.querySelector('[data-gender].active:not(#edit-gender-grid [data-gender])');
-                            return btn ? btn.dataset.gender : 'Both';
-                        }
+            function showLogin() {
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('admin-page').style.display = 'none';
+            }
 
-                        function toggleEditGender(btn) {
-                            document.querySelectorAll('#edit-gender-grid [data-gender]').forEach(b => b.classList.remove('active'));
-                            btn.classList.add('active');
-                        }
+            function showAdmin() {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('admin-page').style.display = 'block';
+                loadProducts();
+            }
 
-                        function getEditSelectedGender() {
-                            const btn = document.querySelector('#edit-gender-grid [data-gender].active');
-                            return btn ? btn.dataset.gender : 'Both';
-                        }
+            // ── IMAGE PREVIEW (ADD FORM) ──
+            function previewImage(input) {
+                    const newFiles = [...input.files];
 
-            function refreshPreview() {
+                    // add newly selected images also
+                    selectedFiles = [...selectedFiles, ...newFiles];
+
+                    // remove duplicates by name + size
+                    selectedFiles = selectedFiles.filter(
+                        (file, index, self) =>
+                            index === self.findIndex(
+                                f => f.name === file.name && f.size === file.size
+                            )
+                    );
+
+                    if (!selectedFiles.length) return;
+
                     const zone = document.getElementById('upload-zone');
                     const previewContainer = document.getElementById('multi-preview');
 
                     previewContainer.innerHTML = '';
 
-                    if (!selectedFiles.length) {
-                        zone.querySelector('.img-upload-icon').style.display = '';
-                        zone.querySelector('.img-upload-text').style.display = '';
-
-                        zone.classList.remove('has-img');
-                        return;
-                    }
-
                     selectedFiles.forEach((file, index) => {
                         const wrapper = document.createElement('div');
-
                         wrapper.style.position = 'relative';
                         wrapper.style.flexShrink = '0';
 
                         const img = document.createElement('img');
-
                         img.src = URL.createObjectURL(file);
 
                         if (index === 0) {
                             img.classList.add('main-preview');
                         }
 
+                        // REMOVE BUTTON
                         const removeBtn = document.createElement('button');
 
                         removeBtn.innerHTML = '×';
@@ -593,6 +458,7 @@
 
                             selectedFiles.splice(index, 1);
 
+                            // refresh preview
                             refreshPreview();
                         };
 
@@ -601,552 +467,730 @@
 
                         previewContainer.appendChild(wrapper);
                     });
+
+                    zone.querySelector('.img-upload-icon').style.display = 'none';
+                    zone.querySelector('.img-upload-text').style.display = 'none';
+
+                    zone.classList.add('has-img');
+
+                    // IMPORTANT:
+                    // reset input so same image can be selected again later
+                    input.value = '';
                 }
 
-        // ── SIZE TOGGLE (ADD FORM) ──
-        function toggleSize(btn) {
-            btn.classList.toggle('active');
-        }
+            function handleCategoryChange() {
 
-        function getSelectedSizes() {
-                const buttons = document.querySelectorAll('#sizes-grid .size-btn');
+                    const category =
+                        document.getElementById('product-category').value;
 
-                const activeSizes = [];
+                    const sizesGrid =
+                        document.getElementById('sizes-grid');
 
-                buttons.forEach(btn => {
-                    if (btn.classList.contains('active')) {
-                        activeSizes.push(btn.dataset.size);
+                    const customSizeRow =
+                        document.querySelector('.custom-size-row');
+
+                    const customTags =
+                        document.getElementById('custom-tags');
+
+                    const colorSection =
+                        document.getElementById('color-section');
+
+                    // WATCHES
+                    if (category === 'Watches') {
+
+                        sizesGrid.style.display = 'none';
+                        customSizeRow.style.display = 'none';
+                        customTags.style.display = 'none';
+
+                        colorSection.style.display = 'block';
                     }
-                });
 
-                return [...activeSizes, ...customSizes];
+                    // OTHER PRODUCTS
+                    else {
+
+                        sizesGrid.style.display = 'grid';
+                        customSizeRow.style.display = 'flex';
+                        customTags.style.display = 'flex';
+
+                        colorSection.style.display = 'none';
+                    }
+                }
+
+                    function toggleColor(btn) {
+                            btn.classList.toggle('active');
+                        }
+
+                        function getSelectedColors() {
+
+                            const buttons =
+                                document.querySelectorAll('#colors-grid .size-btn.active');
+
+                            return [...buttons].map(btn => btn.dataset.color);
+                        }
+
+
+                        // ── GENDER TOGGLE ──
+                            function toggleGender(btn) {
+                                document.querySelectorAll('[data-gender]').forEach(b => {
+                                    if (b.closest('#edit-gender-grid') === null) b.classList.remove('active');
+                                });
+                                btn.classList.add('active');
+                            }
+
+                            function getSelectedGender() {
+                                const btn = document.querySelector('[data-gender].active:not(#edit-gender-grid [data-gender])');
+                                return btn ? btn.dataset.gender : 'Both';
+                            }
+
+                            function toggleEditGender(btn) {
+                                document.querySelectorAll('#edit-gender-grid [data-gender]').forEach(b => b.classList.remove('active'));
+                                btn.classList.add('active');
+                            }
+
+                            function getEditSelectedGender() {
+                                const btn = document.querySelector('#edit-gender-grid [data-gender].active');
+                                return btn ? btn.dataset.gender : 'Both';
+                            }
+
+                function refreshPreview() {
+                        const zone = document.getElementById('upload-zone');
+                        const previewContainer = document.getElementById('multi-preview');
+
+                        previewContainer.innerHTML = '';
+
+                        if (!selectedFiles.length) {
+                            zone.querySelector('.img-upload-icon').style.display = '';
+                            zone.querySelector('.img-upload-text').style.display = '';
+
+                            zone.classList.remove('has-img');
+                            return;
+                        }
+
+                        selectedFiles.forEach((file, index) => {
+                            const wrapper = document.createElement('div');
+
+                            wrapper.style.position = 'relative';
+                            wrapper.style.flexShrink = '0';
+
+                            const img = document.createElement('img');
+
+                            img.src = URL.createObjectURL(file);
+
+                            if (index === 0) {
+                                img.classList.add('main-preview');
+                            }
+
+                            const removeBtn = document.createElement('button');
+
+                            removeBtn.innerHTML = '×';
+
+                            removeBtn.style.position = 'absolute';
+                            removeBtn.style.top = '-6px';
+                            removeBtn.style.right = '-6px';
+                            removeBtn.style.width = '24px';
+                            removeBtn.style.height = '24px';
+                            removeBtn.style.borderRadius = '50%';
+                            removeBtn.style.border = 'none';
+                            removeBtn.style.background = '#e05252';
+                            removeBtn.style.color = '#fff';
+                            removeBtn.style.cursor = 'pointer';
+                            removeBtn.style.fontSize = '16px';
+                            removeBtn.style.fontWeight = 'bold';
+                            removeBtn.style.zIndex = '10';
+
+                            removeBtn.onclick = (e) => {
+                                e.stopPropagation();
+
+                                selectedFiles.splice(index, 1);
+
+                                refreshPreview();
+                            };
+
+                            wrapper.appendChild(img);
+                            wrapper.appendChild(removeBtn);
+
+                            previewContainer.appendChild(wrapper);
+                        });
+                    }
+
+            // ── SIZE TOGGLE (ADD FORM) ──
+            function toggleSize(btn) {
+                btn.classList.toggle('active');
             }
 
-        function addCustomSize() {
-            const input = document.getElementById('custom-size-input');
-            const val = input.value.trim();
-            if (!val || customSizes.includes(val)) { input.value = ''; return; }
-            customSizes.push(val);
-            renderCustomTags();
-            input.value = '';
-        }
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Enter' && document.activeElement === document.getElementById('custom-size-input')) {
-                addCustomSize();
-            }
-        });
+            function getSelectedSizes() {
+                    const buttons = document.querySelectorAll('#sizes-grid .size-btn');
 
-        function renderCustomTags() {
-            const container = document.getElementById('custom-tags');
-            container.innerHTML = customSizes.map(s => `
-    <div class="custom-tag">${s}
-      <button onclick="removeCustomSize('${s}')" aria-label="Remove">×</button>
-    </div>`).join('');
-        }
-        function removeCustomSize(s) {
-            customSizes = customSizes.filter(x => x !== s);
-            renderCustomTags();
-        }
+                    const activeSizes = [];
 
-        // ── ADD PRODUCT ──
-        async function addProduct() {
-            const name = document.getElementById('product-name').value.trim();
-            const category = document.getElementById('product-category').value;
-            if (!category) {
-                showToast('Select category', 'error');
-                return;
+                    buttons.forEach(btn => {
+                        if (btn.classList.contains('active')) {
+                            activeSizes.push(btn.dataset.size);
+                        }
+                    });
+
+                    return [...activeSizes, ...customSizes];
+                }
+
+            function addCustomSize() {
+                const input = document.getElementById('custom-size-input');
+                const val = input.value.trim();
+                if (!val || customSizes.includes(val)) { input.value = ''; return; }
+                customSizes.push(val);
+                renderCustomTags();
+                input.value = '';
             }
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Enter' && document.activeElement === document.getElementById('custom-size-input')) {
+                    addCustomSize();
+                }
+            });
+
+            function renderCustomTags() {
+                const container = document.getElementById('custom-tags');
+                container.innerHTML = customSizes.map(s => `
+        <div class="custom-tag">${s}
+        <button onclick="removeCustomSize('${s}')" aria-label="Remove">×</button>
+        </div>`).join('');
+            }
+            function removeCustomSize(s) {
+                customSizes = customSizes.filter(x => x !== s);
+                renderCustomTags();
+            }
+
+            // ── ADD PRODUCT ──
+            async function addProduct() {
+                const name = document.getElementById('product-name').value.trim();
+                const category = document.getElementById('product-category').value;
+                if (!category) {
+                    showToast('Select category', 'error');
+                    return;
+                }
+                
+                const rate =
+                document.getElementById('product-rate').value;
+
+
+                const strikeRate =
+                    document.getElementById('product-strike-rate').value;
+
+                const sizes = getSelectedSizes();
+                const colors = getSelectedColors();
+                if (!selectedFiles.length) { showToast('Please select a product image', 'error'); return; }
+                if (!name) { showToast('Enter a product name', 'error'); return; }
             
-            const rate = document.getElementById('product-rate').value;
-            const strikeRate = document.getElementById('product-strike-rate').value;
-            const sizes = getSelectedSizes();
-            const colors = getSelectedColors();
-            if (!selectedFiles.length) { showToast('Please select a product image', 'error'); return; }
-            if (!name) { showToast('Enter a product name', 'error'); return; }
-           
-            if (category === 'Watches') {
+                if (category === 'Watches') {
 
-                if (colors.length === 0) {
+                    if (colors.length === 0) {
 
-                    showToast('Select at least one color', 'error');
+                        showToast('Select at least one color', 'error');
 
+                        return;
+                    }
+
+                } else {
+
+                    if (sizes.length === 0) {
+
+                        showToast('Select at least one size', 'error');
+
+                        return;
+                    }
+                }
+
+                if (!rate || Number(rate) <= 0) { showToast('Enter a valid price', 'error'); return; }
+
+                const btn = document.getElementById('submit-btn');
+                btn.disabled = true; btn.textContent = 'Adding…';
+
+                const imageUrls = [];
+
+                for (const file of selectedFiles) {
+                    const url = await uploadImage(file, 'upload-progress', 'upload-progress-bar');
+
+                    if (url) imageUrls.push(url);
+                }
+
+                if (!imageUrls.length) {
+                    btn.disabled = false;
+                    btn.textContent = 'Add Product';
                     return;
                 }
 
-            } else {
+                const { error } = await db.from('products').insert({
+                    name,
+                    category,
+                    rate: Number(rate),
+                    strike_rate: strikeRate ? Number(strikeRate) : null,
+                    gender: getSelectedGender(),
+                    sizes,
+                    colors,
+                    image_url: imageUrls[0],
+                    images: imageUrls
+                });
+
+                if (error) {
+                    showToast('Failed to add product', 'error');
+                } else {
+                    showToast('Product added!', 'success');
+                    resetAddForm();
+                    loadProducts();
+                }
+                btn.disabled = false; btn.textContent = 'Add Product';
+            }
+        function resetAddForm() {
+            selectedFiles = [];
+            customSizes = [];
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-category').value = '';
+            document.getElementById('product-strike-rate').value = '';
+            document.getElementById('product-rate').value = '';
+            document.getElementById('custom-tags').innerHTML = '';
+            document.getElementById('custom-size-input').value = '';
+            document.getElementById('product-img-file').value = '';
+
+            // Clear multi-preview
+            const previewContainer = document.getElementById('multi-preview');
+            previewContainer.innerHTML = '';
+
+            // Reset upload zone
+            const zone = document.getElementById('upload-zone');
+            zone.classList.remove('has-img');
+            zone.querySelector('.img-upload-icon').style.display = '';
+            zone.querySelector('.img-upload-text').style.display = '';
+
+            // Reset size buttons
+            document.querySelectorAll('#sizes-grid .size-btn.active').forEach(b => b.classList.remove('active'));
+
+            // Reset color buttons
+            document.querySelectorAll('#colors-grid .size-btn.active').forEach(b => b.classList.remove('active'));
+
+            // Reset gender to default "Both"
+            document.querySelectorAll('[data-gender]').forEach(b => {
+                if (b.closest('#edit-gender-grid') === null) {
+                    b.classList.toggle('active', b.dataset.gender === 'Both');
+                }
+            });
+
+            // Reset category-dependent UI
+            handleCategoryChange();
+        }
+            async function compressImage(file) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+
+                        const maxWidth = 1200;
+
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob(
+                            (blob) => {
+                                resolve(
+                                    new File([blob], file.name, {
+                                        type: 'image/jpeg',
+                                        lastModified: Date.now(),
+                                    })
+                                );
+                            },
+                            'image/jpeg',
+                            0.7
+                        );
+                    };
+
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+            // ── UPLOAD IMAGE ──
+            async function uploadImage(file, progressId, barId) {
+                const ext = file.name.split('.').pop();
+                const path = `products/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+                document.getElementById(progressId).style.display = 'block';
+                document.getElementById(barId).style.width = '30%';
+
+                const compressed = await compressImage(file);
+
+                const { error } = await db.storage
+                    .from('product-images')
+                    .upload(path, compressed, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                document.getElementById(barId).style.width = '100%';
+                setTimeout(() => { document.getElementById(progressId).style.display = 'none'; document.getElementById(barId).style.width = '0%'; }, 500);
+
+                if (error) { showToast('Image upload failed', 'error'); return null; }
+                const { data } = db.storage.from('product-images').getPublicUrl(path);
+                return data.publicUrl;
+            }
+
+            // ── LOAD PRODUCTS ──
+            async function loadProducts() {
+                const spinner = document.getElementById('list-spinner');
+                spinner.style.display = 'block';
+                document.getElementById('products-list').innerHTML = '';
+                document.getElementById('empty-state').style.display = 'none';
+
+                const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
+                spinner.style.display = 'none';
+
+                if (error || !data) { showToast('Failed to load products', 'error'); return; }
+                document.getElementById('product-count').textContent = data.length;
+
+                if (data.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                    return;
+                }
+
+                const list = document.getElementById('products-list');
+                data.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.id = `card-${p.id}`;
+                    card.innerHTML = `
+        <div class="product-card-inner">
+            <div class="product-img-wrap">
+            <img src="${p.image_url}" alt="${p.name}" loading="lazy" />
+            <input class="product-img-input" type="file" accept="image/*" onchange="quickChangeImage(this, '${p.id}', '${p.image_url}')" />
+            <div class="img-change-overlay">📷 Change</div>
+            </div>
+            <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-category">${p.category || ''}</div>
+            <div class="product-category" style="font-size:11px;opacity:.6;">${p.gender || 'Both'}</div>
+            <div class="product-price">
+                ${
+                                p.strike_rate
+                                    ? `<span style="text-decoration:line-through;opacity:.45;font-size:16px;margin-right:8px;">
+                        ₹${p.strike_rate.toLocaleString('en-IN')}
+                    </span>`
+                                    : ''
+                                }
+                ₹${p.rate.toLocaleString('en-IN')}
+            </div>        
+    <div class="product-sizes">
+        ${
+                        p.category === 'Watches'
+
+                            ? (p.colors || []).map(
+                                c => `<span class="product-size-tag">${c}</span>`
+                            ).join('')
+
+                            : (p.sizes || []).map(
+                                s => `<span class="product-size-tag">${s}</span>`
+                            ).join('')
+        }
+    </div>
+            <div class="product-actions">
+                <button class="edit-btn" onclick='openEdit(${JSON.stringify(p)})'>✏️ Edit</button>
+                <button class="delete-btn" onclick="promptDelete('${p.id}', '${p.image_url}')">🗑 Delete</button>
+            </div>
+            </div>
+        </div>`;
+                    list.appendChild(card);
+                });
+            }
+
+            // ── QUICK IMAGE CHANGE (from list) ──
+            // BUG 4
+                // quickChangeImage() is incomplete
+
+                async function quickChangeImage(input, productId, oldImageUrl) {
+                    const file = input.files[0];
+                    if (!file) return;
+
+                    showToast('Uploading…');
+
+                    const newUrl = await uploadImage(
+                        file,
+                        'upload-progress',
+                        'upload-progress-bar'
+                    );
+
+                    if (!newUrl) return;
+
+                    const { error } = await db
+                        .from('products')
+                        .update({ image_url: newUrl })
+                        .eq('id', productId);
+
+                    if (error) {
+                        showToast('Update failed', 'error');
+                        return;
+                    }
+
+                    deleteOldImage(oldImageUrl);
+
+                    showToast('Image updated!', 'success');
+
+                    loadProducts();
+                }
+
+            // ── EDIT MODAL ──
+        function openEdit(product) {
+                editProductId = product.id;
+                editProductOldImage = product.image_url;
+                editSelectedFile = null;
+
+                document.getElementById('edit-product-name').value = product.name;
+
+                document.getElementById('edit-product-rate').value =
+                product.rate;
+
+                document.getElementById('edit-product-strike-rate').value =
+                product.strike_rate || '';
+
+                // Set preview image
+                const zone = document.getElementById('edit-upload-zone');
+
+                let img = zone.querySelector('img.preview');
+
+                if (!img) {
+                    img = document.createElement('img');
+                    img.className = 'preview';
+                    zone.appendChild(img);
+                }
+
+                img.src = product.image_url;
+
+                zone.classList.add('has-img');
+
+                zone.querySelector('.img-upload-icon') &&
+                    (zone.querySelector('.img-upload-icon').style.display = 'none');
+
+                zone.querySelector('.img-upload-text') &&
+                    (zone.querySelector('.img-upload-text').style.display = 'none');
+
+                // Set sizes
+                const sizes = product.sizes || [];
+
+                const knownSizes = [
+                    'XS', 'S', 'M', 'L', 'XL',
+                    'XXL', '3XL', 'Free',
+                    '28', '30', '32', '34',
+                    '36', '38', '40'
+                ];
+
+                document.querySelectorAll('#edit-sizes-grid .size-btn').forEach(btn => {
+                    btn.classList.toggle(
+                        'active',
+                        sizes.includes(btn.dataset.size)
+                    );
+                });
+
+                editCustomSizes =
+                    sizes.filter(s => !knownSizes.includes(s));
+
+                renderEditCustomTags();
+
+                const gender = product.gender || 'Both';
+
+                document.querySelectorAll('#edit-gender-grid [data-gender]')
+                    .forEach(b => {
+                        b.classList.toggle(
+                            'active',
+                            b.dataset.gender === gender
+                        );
+                    });
+
+                document.getElementById('edit-modal')
+                    .classList.add('open');
+            }
+
+            function closeEdit() {
+
+            document.getElementById('edit-modal')
+                .classList.remove('open');
+
+            document.getElementById('edit-img-file').value = '';
+
+            editSelectedFile = null;
+        }
+
+            function editPreviewImage(input) {
+                editSelectedFile = input.files[0];
+                if (!editSelectedFile) return;
+                const zone = document.getElementById('edit-upload-zone');
+                let img = zone.querySelector('img.preview');
+                if (!img) { img = document.createElement('img'); img.className = 'preview'; zone.appendChild(img); }
+                img.src = URL.createObjectURL(editSelectedFile);
+                zone.classList.add('has-img');
+            }
+
+            function toggleEditSize(btn) { btn.classList.toggle('active'); }
+
+            function getEditSelectedSizes() {
+                const grid = document.getElementById('edit-sizes-grid');
+                const active = [...grid.querySelectorAll('.size-btn.active')].map(b => b.dataset.size);
+                return [...active, ...editCustomSizes];
+            }
+
+            function addEditCustomSize() {
+                const input = document.getElementById('edit-custom-size-input');
+                const val = input.value.trim();
+                if (!val || editCustomSizes.includes(val)) { input.value = ''; return; }
+                editCustomSizes.push(val);
+                renderEditCustomTags();
+                input.value = '';
+            }
+            function renderEditCustomTags() {
+                const container = document.getElementById('edit-custom-tags');
+                container.innerHTML = editCustomSizes.map(s => `
+        <div class="custom-tag">${s}
+        <button onclick="removeEditCustomSize('${s}')" aria-label="Remove">×</button>
+        </div>`).join('');
+            }
+            function removeEditCustomSize(s) {
+                editCustomSizes = editCustomSizes.filter(x => x !== s);
+                renderEditCustomTags();
+            }
+        async function saveEdit() {
+
+                const name =
+                    document.getElementById('edit-product-name').value.trim();
+
+            const rate =
+            document.getElementById('edit-product-rate').value;
+
+            const strikeRate =
+                document.getElementById('edit-product-strike-rate').value;
+
+                const sizes =
+                    getEditSelectedSizes();
+
+                if (!name) {
+                    showToast('Enter product name', 'error');
+                    return;
+                }
+
+                if (!rate || Number(rate) <= 0) {
+                    showToast('Enter valid price', 'error');
+                    return;
+                }
 
                 if (sizes.length === 0) {
-
                     showToast('Select at least one size', 'error');
-
                     return;
                 }
-            }
 
-            if (!rate || Number(rate) <= 0) { showToast('Enter a valid price', 'error'); return; }
+                const saveBtn =
+                    document.querySelector('.modal-save-btn');
 
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true; btn.textContent = 'Adding…';
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving…';
 
-            const imageUrls = [];
+                let imageUrl = editProductOldImage;
 
-            for (const file of selectedFiles) {
-                const url = await uploadImage(file, 'upload-progress', 'upload-progress-bar');
+                // upload new image if selected
+                if (editSelectedFile) {
 
-                if (url) imageUrls.push(url);
-            }
+                    imageUrl = await uploadImage(
+                        editSelectedFile,
+                        'edit-upload-progress',
+                        'edit-upload-progress-bar'
+                    );
 
-            if (!imageUrls.length) {
-                btn.disabled = false;
-                btn.textContent = 'Add Product';
-                return;
-            }
+                    if (!imageUrl) {
 
-            const { error } = await db.from('products').insert({
-                name,
-                category,
-                rate: Number(rate),
-                strike_rate: strikeRate ? Number(strikeRate) : null,
-                gender: getSelectedGender(),
-                sizes,
-                colors,
-                image_url: imageUrls[0],
-                images: imageUrls
-            });
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'Save Changes';
 
-            if (error) {
-                showToast('Failed to add product', 'error');
-            } else {
-                showToast('Product added!', 'success');
-                resetAddForm();
-                loadProducts();
-            }
-            btn.disabled = false; btn.textContent = 'Add Product';
-        }
-    function resetAddForm() {
-        selectedFiles = [];
-        customSizes = [];
-        document.getElementById('product-name').value = '';
-        document.getElementById('product-strike-rate').value = '';
-        document.getElementById('product-category').value = '';
-        document.getElementById('product-rate').value = '';
-        document.getElementById('custom-tags').innerHTML = '';
-        document.getElementById('custom-size-input').value = '';
-        document.getElementById('product-img-file').value = '';
-
-        // Clear multi-preview
-        const previewContainer = document.getElementById('multi-preview');
-        previewContainer.innerHTML = '';
-
-        // Reset upload zone
-        const zone = document.getElementById('upload-zone');
-        zone.classList.remove('has-img');
-        zone.querySelector('.img-upload-icon').style.display = '';
-        zone.querySelector('.img-upload-text').style.display = '';
-
-        // Reset size buttons
-        document.querySelectorAll('#sizes-grid .size-btn.active').forEach(b => b.classList.remove('active'));
-
-        // Reset color buttons
-        document.querySelectorAll('#colors-grid .size-btn.active').forEach(b => b.classList.remove('active'));
-
-        // Reset gender to default "Both"
-        document.querySelectorAll('[data-gender]').forEach(b => {
-            if (b.closest('#edit-gender-grid') === null) {
-                b.classList.toggle('active', b.dataset.gender === 'Both');
-            }
-        });
-
-        // Reset category-dependent UI
-        handleCategoryChange();
-    }
-        async function compressImage(file) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-
-                img.onload = () => {
-                    let width = img.width;
-                    let height = img.height;
-
-                    const maxWidth = 1200;
-
-                    if (width > maxWidth) {
-                        height *= maxWidth / width;
-                        width = maxWidth;
+                        return;
                     }
 
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    canvas.toBlob(
-                        (blob) => {
-                            resolve(
-                                new File([blob], file.name, {
-                                    type: 'image/jpeg',
-                                    lastModified: Date.now(),
-                                })
-                            );
-                        },
-                        'image/jpeg',
-                        0.7
-                    );
-                };
-
-                img.src = URL.createObjectURL(file);
-            });
-        }
-        // ── UPLOAD IMAGE ──
-        async function uploadImage(file, progressId, barId) {
-            const ext = file.name.split('.').pop();
-            const path = `products/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-            document.getElementById(progressId).style.display = 'block';
-            document.getElementById(barId).style.width = '30%';
-
-            const compressed = await compressImage(file);
-
-            const { error } = await db.storage
-                .from('product-images')
-                .upload(path, compressed, {
-                    cacheControl: '3600',
-                    upsert: false
-                });
-
-            document.getElementById(barId).style.width = '100%';
-            setTimeout(() => { document.getElementById(progressId).style.display = 'none'; document.getElementById(barId).style.width = '0%'; }, 500);
-
-            if (error) { showToast('Image upload failed', 'error'); return null; }
-            const { data } = db.storage.from('product-images').getPublicUrl(path);
-            return data.publicUrl;
-        }
-
-        // ── LOAD PRODUCTS ──
-        async function loadProducts() {
-            const spinner = document.getElementById('list-spinner');
-            spinner.style.display = 'block';
-            document.getElementById('products-list').innerHTML = '';
-            document.getElementById('empty-state').style.display = 'none';
-
-            const { data, error } = await db.from('products').select('*').order('created_at', { ascending: false });
-            spinner.style.display = 'none';
-
-            if (error || !data) { showToast('Failed to load products', 'error'); return; }
-            document.getElementById('product-count').textContent = data.length;
-
-            if (data.length === 0) {
-                document.getElementById('empty-state').style.display = 'block';
-                return;
-            }
-
-            const list = document.getElementById('products-list');
-            data.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.id = `card-${p.id}`;
-                card.innerHTML = `
-      <div class="product-card-inner">
-        <div class="product-img-wrap">
-          <img src="${p.image_url}" alt="${p.name}" loading="lazy" />
-          <input class="product-img-input" type="file" accept="image/*" onchange="quickChangeImage(this, '${p.id}', '${p.image_url}')" />
-          <div class="img-change-overlay">📷 Change</div>
-        </div>
-        <div class="product-info">
-          <div class="product-name">${p.name}</div>
-          <div class="product-category">${p.category || ''}</div>
-        <div class="product-category" style="font-size:11px;opacity:.6;">${p.gender || 'Both'}</div>
-        <div class="product-price">
-            ${
-                            p.strike_rate
-                                ? `<span style="text-decoration:line-through;opacity:.45;font-size:16px;margin-right:8px;">
-                    ₹${p.strike_rate.toLocaleString('en-IN')}
-                </span>`
-                                : ''
-                            }
-            ₹${p.rate.toLocaleString('en-IN')}
-        </div>        
-<div class="product-sizes">
-    ${
-                    p.category === 'Watches'
-
-                        ? (p.colors || []).map(
-                            c => `<span class="product-size-tag">${c}</span>`
-                        ).join('')
-
-                        : (p.sizes || []).map(
-                            s => `<span class="product-size-tag">${s}</span>`
-                        ).join('')
-    }
-</div>
-          <div class="product-actions">
-            <button class="edit-btn" onclick='openEdit(${JSON.stringify(p)})'>✏️ Edit</button>
-            <button class="delete-btn" onclick="promptDelete('${p.id}', '${p.image_url}')">🗑 Delete</button>
-          </div>
-        </div>
-      </div>`;
-                list.appendChild(card);
-            });
-        }
-
-        // ── QUICK IMAGE CHANGE (from list) ──
-        // BUG 4
-            // quickChangeImage() is incomplete
-
-            async function quickChangeImage(input, productId, oldImageUrl) {
-                const file = input.files[0];
-                if (!file) return;
-
-                showToast('Uploading…');
-
-                const newUrl = await uploadImage(
-                    file,
-                    'upload-progress',
-                    'upload-progress-bar'
-                );
-
-                if (!newUrl) return;
+                    deleteOldImage(editProductOldImage);
+                }
 
                 const { error } = await db
                     .from('products')
-                    .update({ image_url: newUrl })
-                    .eq('id', productId);
+                    .update({
+                        name,
+                        rate: Number(rate),
+                        strike_rate: strikeRate ? Number(strikeRate) : null,
+                        gender: getEditSelectedGender(),
+                        sizes,
+                        image_url: imageUrl
+                    })
+                    .eq('id', editProductId);
+
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Changes';
 
                 if (error) {
+
+                    console.log(error);
+
                     showToast('Update failed', 'error');
+
                     return;
                 }
 
-                deleteOldImage(oldImageUrl);
+                showToast('Product updated!', 'success');
 
-                showToast('Image updated!', 'success');
+                closeEdit();
 
                 loadProducts();
             }
+            // ── DELETE ──
+            function promptDelete(id, imageUrl) {
+                deleteProductId = id;
+                deleteProductImage = imageUrl;
+                document.getElementById('confirm-modal').classList.add('open');
+            }
+            function closeConfirm() {
+                document.getElementById('confirm-modal').classList.remove('open');
+                deleteProductId = null; deleteProductImage = null;
+            }
+            async function confirmDelete() {
+                if (!deleteProductId) return;
+                const { error } = await db.from('products').delete().eq('id', deleteProductId);
+                if (error) { showToast('Delete failed', 'error'); closeConfirm(); return; }
+                deleteOldImage(deleteProductImage);
+                showToast('Product deleted', 'success');
+                closeConfirm();
+                loadProducts();
+            }
 
-        // ── EDIT MODAL ──
-        function openEdit(product) {
-            editProductId = product.id;
-            editProductOldImage = product.image_url;
-            editSelectedFile = null;
-            editSelectedFile = null;
-            document.getElementById('edit-product-name').value = product.name;
-            document.getElementById('edit-product-rate').value = product.rate;
+            function deleteOldImage(url) {
+                if (!url) return;
+                try {
+                    const path = url.split('/product-images/')[1];
+                    if (path) db.storage.from('product-images').remove([path]);
+                } catch (e) { }
+            }
 
-            // Set preview image
-            const zone = document.getElementById('edit-upload-zone');
-            let img = zone.querySelector('img.preview');
-            if (!img) { img = document.createElement('img'); img.className = 'preview'; zone.appendChild(img); }
-            img.src = product.image_url;
-            zone.classList.add('has-img');
-            zone.querySelector('.img-upload-icon') && (zone.querySelector('.img-upload-icon').style.display = 'none');
-            zone.querySelector('.img-upload-text') && (zone.querySelector('.img-upload-text').style.display = 'none');
-
-            // Set sizes
-            const sizes = product.sizes || [];
-            const knownSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', 'Free', '28', '30', '32', '34', '36', '38', '40'];
-            document.querySelectorAll('#edit-sizes-grid .size-btn').forEach(btn => {
-                btn.classList.toggle('active', sizes.includes(btn.dataset.size));
+            // ── CLOSE MODALS ON BACKDROP TAP ──
+            document.getElementById('edit-modal').addEventListener('click', e => {
+                if (e.target === document.getElementById('edit-modal')) closeEdit();
             });
-            editCustomSizes = sizes.filter(s => !knownSizes.includes(s));
-            renderEditCustomTags();
-
-            // add this after the sizes block inside openEdit()
-            const gender = product.gender || 'Both';
-            document.querySelectorAll('#edit-gender-grid [data-gender]').forEach(b => {
-                b.classList.toggle('active', b.dataset.gender === gender);
+            document.getElementById('confirm-modal').addEventListener('click', e => {
+                if (e.target === document.getElementById('confirm-modal')) closeConfirm();
             });
-            
-            document.getElementById('edit-modal').classList.add('open');
-        }
 
-    function closeEdit() {
-
-        document.getElementById('edit-modal')
-            .classList.remove('open');
-
-        document.getElementById('edit-img-file').value = '';
-
-        editSelectedFile = null;
-    }
-
-        function editPreviewImage(input) {
-            editSelectedFile = input.files[0];
-            if (!editSelectedFile) return;
-            const zone = document.getElementById('edit-upload-zone');
-            let img = zone.querySelector('img.preview');
-            if (!img) { img = document.createElement('img'); img.className = 'preview'; zone.appendChild(img); }
-            img.src = URL.createObjectURL(editSelectedFile);
-            zone.classList.add('has-img');
-        }
-
-        function toggleEditSize(btn) { btn.classList.toggle('active'); }
-
-        function getEditSelectedSizes() {
-            const grid = document.getElementById('edit-sizes-grid');
-            const active = [...grid.querySelectorAll('.size-btn.active')].map(b => b.dataset.size);
-            return [...active, ...editCustomSizes];
-        }
-
-        function addEditCustomSize() {
-            const input = document.getElementById('edit-custom-size-input');
-            const val = input.value.trim();
-            if (!val || editCustomSizes.includes(val)) { input.value = ''; return; }
-            editCustomSizes.push(val);
-            renderEditCustomTags();
-            input.value = '';
-        }
-        function renderEditCustomTags() {
-            const container = document.getElementById('edit-custom-tags');
-            container.innerHTML = editCustomSizes.map(s => `
-    <div class="custom-tag">${s}
-      <button onclick="removeEditCustomSize('${s}')" aria-label="Remove">×</button>
-    </div>`).join('');
-        }
-        function removeEditCustomSize(s) {
-            editCustomSizes = editCustomSizes.filter(x => x !== s);
-            renderEditCustomTags();
-        }
-
-        const category =
-                document.getElementById('product-category').value;
-
-            const colors = getSelectedColors();
-
-       async function saveEdit() {
-
-            const name =
-                document.getElementById('edit-product-name').value.trim();
-
-            const rate =
-                document.getElementById('edit-product-rate').value;
-
-                const strikeRate =
-               document.getElementById('edit-product-strike-rate').value;
-
-            const sizes =
-                getEditSelectedSizes();
-
-            if (!name) {
-                showToast('Enter product name', 'error');
-                return;
+            // ── TOAST ──
+            let toastTimer;
+            function showToast(msg, type = '') {
+                const t = document.getElementById('toast');
+                t.textContent = msg;
+                t.className = type ? `show ${type}` : 'show';
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => { t.className = ''; }, 2500);
             }
+        </script>
+    </body>
 
-            if (!rate || Number(rate) <= 0) {
-                showToast('Enter valid price', 'error');
-                return;
-            }
-
-            if (sizes.length === 0) {
-                showToast('Select at least one size', 'error');
-                return;
-            }
-
-            const saveBtn =
-                document.querySelector('.modal-save-btn');
-
-            saveBtn.disabled = true;
-            saveBtn.textContent = 'Saving…';
-
-            let imageUrl = editProductOldImage;
-
-            // upload new image if selected
-            if (editSelectedFile) {
-
-                imageUrl = await uploadImage(
-                    editSelectedFile,
-                    'edit-upload-progress',
-                    'edit-upload-progress-bar'
-                );
-
-                if (!imageUrl) {
-
-                    saveBtn.disabled = false;
-                    saveBtn.textContent = 'Save Changes';
-
-                    return;
-                }
-
-                deleteOldImage(editProductOldImage);
-            }
-
-            const { error } = await db
-                .from('products')
-                .update({
-                    name,
-                    rate: Number(rate),
-                    strike_rate: strikeRate ? Number(strikeRate) : null,
-                    gender: getEditSelectedGender(),
-                    sizes,
-                    image_url: imageUrl
-                })
-                .eq('id', editProductId);
-
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Save Changes';
-
-            if (error) {
-
-                console.log(error);
-
-                showToast('Update failed', 'error');
-
-                return;
-            }
-
-            showToast('Product updated!', 'success');
-
-            closeEdit();
-
-            loadProducts();
-        }
-        // ── DELETE ──
-        function promptDelete(id, imageUrl) {
-            deleteProductId = id;
-            deleteProductImage = imageUrl;
-            document.getElementById('confirm-modal').classList.add('open');
-        }
-        function closeConfirm() {
-            document.getElementById('confirm-modal').classList.remove('open');
-            deleteProductId = null; deleteProductImage = null;
-        }
-        async function confirmDelete() {
-            if (!deleteProductId) return;
-            const { error } = await db.from('products').delete().eq('id', deleteProductId);
-            if (error) { showToast('Delete failed', 'error'); closeConfirm(); return; }
-            deleteOldImage(deleteProductImage);
-            showToast('Product deleted', 'success');
-            closeConfirm();
-            loadProducts();
-        }
-
-        function deleteOldImage(url) {
-            if (!url) return;
-            try {
-                const path = url.split('/product-images/')[1];
-                if (path) db.storage.from('product-images').remove([path]);
-            } catch (e) { }
-        }
-
-        // ── CLOSE MODALS ON BACKDROP TAP ──
-        document.getElementById('edit-modal').addEventListener('click', e => {
-            if (e.target === document.getElementById('edit-modal')) closeEdit();
-        });
-        document.getElementById('confirm-modal').addEventListener('click', e => {
-            if (e.target === document.getElementById('confirm-modal')) closeConfirm();
-        });
-
-        // ── TOAST ──
-        let toastTimer;
-        function showToast(msg, type = '') {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = type ? `show ${type}` : 'show';
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => { t.className = ''; }, 2500);
-        }
-    </script>
-</body>
-
-</html>
+    </html>
