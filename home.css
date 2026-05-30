@@ -209,6 +209,53 @@ body{
   }
 
 }
+
+.sold-badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:#111;
+    color:#fff;
+    padding:8px 12px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1px;
+    z-index:5;
+    border-radius:999px;
+}
+
+.wa-order.sold{
+    opacity:.5;
+    pointer-events:none;
+}
+
+.sold-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:#111;
+  color:#fff;
+  padding:6px 12px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  border-radius:999px;
+  z-index:3;
+}
+
+.sale-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:#000;
+  color:#fff;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:700;
+  z-index:5;
+  border-radius:4px;
+}
+
 .marquee-track{
   display:flex;gap:32px;white-space:nowrap;
   animation:scroll-x 25s linear infinite;
@@ -797,6 +844,9 @@ body{
 .sale-badge{
   position:absolute;left:14px;top:14px;background:#0a0a0a;color:#fff;
   padding:6px 14px;border-radius:50px;font-size:11px;letter-spacing:1px;
+}
+.sale-badge, .sale-tag{
+  display: none !important;
 }
 .thumb-row{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
 .thumb-row img{

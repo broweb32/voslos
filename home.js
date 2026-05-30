@@ -62,13 +62,16 @@ function render(){
   }
   empty.hidden = true;
 
-  grid.innerHTML = items.map((p,i)=>{
+grid.innerHTML = items
+  .map((p, i) => {
     const hasStrike = p.strike_rate && p.strike_rate > p.rate;
+    const soldOut = p.stock <= 0;
     return `
-      <div class="product-card ${hasStrike ? 'on-sale' : ''}" data-id="${p.id}" style="animation-delay:${i*40}ms">
+      <div class="product-card ${hasStrike ? '' : ''}" data-id="${p.id}" style="animation-delay:${i * 40}ms">
         <div class="img-wrap">
           <img src="${p.image_url}" alt="${escapeHtml(p.name)}" loading="lazy" />
           ${hasStrike ? '' : ''}
+          ${soldOut ? `<div class="sold-badge">SOLD OUT</div>` : ''}
           <div class="quick">QUICK VIEW</div>
         </div>
         <div class="info">
@@ -80,7 +83,8 @@ function render(){
         </div>
       </div>
     `;
-  }).join('');
+  })
+  .join('');
 
   grid.querySelectorAll('.product-card').forEach(card=>{
     card.addEventListener('click', ()=>openProduct(card.dataset.id));
@@ -93,18 +97,33 @@ function escapeHtml(s){
 
 /* ===== Modal ===== */
 function openProduct(id){
-  const p = state.products.find(x=>x.id===id);
+  const p = state.products.find((x) => String(x.id) === String(id));
   if(!p) return;
   state.current = p;
   state.selectedSize = null;
   state.selectedColor = null;
   state.qty = 1;
 
+  const orderBtn = document.getElementById('wa-order');
+
+  if (p.stock <= 0) {
+    orderBtn.disabled = true;
+    orderBtn.textContent = 'SOLD OUT';
+    orderBtn.classList.add('sold');
+  } else {
+    orderBtn.disabled = false;
+    orderBtn.innerHTML = `
+        ORDER FROM WHATSAPP
+    `;
+    orderBtn.classList.remove('sold');
+  }
+
   const allImages = [p.image_url, ...(p.images||[])].filter(Boolean);
   document.getElementById('m-main-img').src = allImages[0];
   document.getElementById('m-name').textContent = p.name;
 
   const hasStrike = p.strike_rate && p.strike_rate > p.rate;
+  const soldOut = p.stock <= 0;
   document.getElementById('m-strike').textContent = hasStrike ? `Rs. ${p.strike_rate.toLocaleString('en-IN')}.00` : '';
   document.getElementById('m-price').textContent = `Rs. ${p.rate.toLocaleString('en-IN')}.00`;
   document.getElementById('m-sale-tag').style.display = hasStrike ? 'inline-block' : 'none';
@@ -163,32 +182,52 @@ function closeModal(){
 }
 
 /* ===== WhatsApp order ===== */
-function sendWhatsApp(){
+function sendWhatsApp() {
   const p = state.current;
-  if(!p) return;
 
-  if(p.sizes && p.sizes.length && !state.selectedSize){
-    alert('Please select a size');return;
+  if (!p) return;
+
+  if (p.stock <= 0) {
+    alert('This product is sold out');
+    return;
   }
-  if(p.colors && p.colors.length && !state.selectedColor){
-    alert('Please select a color');return;
+
+  if (p.sizes && p.sizes.length && !state.selectedSize) {
+    alert('Please select a size');
+    return;
+  }
+
+  if (p.colors && p.colors.length && !state.selectedColor) {
+    alert('Please select a color');
+    return;
   }
 
   const qty = state.qty || 1;
   const total = p.rate * qty;
 
   let msg = `*🛒 NEW ORDER — VOSLOS WEARS*\n\n`;
+
   msg += `*Product:* ${p.name}\n`;
   msg += `*Category:* ${p.category || '-'}\n`;
   msg += `*Price:* Rs. ${p.rate.toLocaleString('en-IN')}\n`;
-  if(state.selectedSize) msg += `*Size:* ${state.selectedSize}\n`;
-  if(state.selectedColor) msg += `*Color:* ${state.selectedColor}\n`;
+
+  if (state.selectedSize) {
+    msg += `*Size:* ${state.selectedSize}\n`;
+  }
+
+  if (state.selectedColor) {
+    msg += `*Color:* ${state.selectedColor}\n`;
+  }
+
   msg += `*Quantity:* ${qty}\n`;
   msg += `*Total:* Rs. ${total.toLocaleString('en-IN')}\n\n`;
+
   msg += `*Image:* ${p.image_url}\n\n`;
+
   msg += `I want to order this product. Please confirm.`;
 
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
   window.open(url, '_blank');
 }
 

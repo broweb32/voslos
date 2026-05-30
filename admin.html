@@ -153,6 +153,12 @@
                     
                     </div>
 
+                    <label class="sizes-label">Stock Quantity</label>
+                    
+                    <div class="rate-row">
+                        <input type="number" class="rate-input" id="product-stock" placeholder="Enter stock quantity" min="0" value="1" />
+                    </div>
+
                     <!-- PRICE -->
                     <label class="sizes-label">Strike Through Price (₹)</label>
                     <div class="rate-row">
@@ -240,6 +246,12 @@
                 </div>
 
                 <!-- EDIT MODAL -->
+                <label class="sizes-label">Stock Quantity</label>
+                
+                <div class="rate-row">
+                    <input type="number" class="rate-input" id="edit-product-stock" placeholder="Stock quantity" min="0" />
+                </div>
+
                 
                 <label class="sizes-label">Strike Through Price (₹)</label>
                 
@@ -661,6 +673,8 @@
             // ── ADD PRODUCT ──
             async function addProduct() {
                 const name = document.getElementById('product-name').value.trim();
+                const stock =
+                    document.getElementById('product-stock').value;
                 const category = document.getElementById('product-category').value;
                 if (!category) {
                     showToast('Select category', 'error');
@@ -721,6 +735,7 @@
                     name,
                     category,
                     rate: Number(rate),
+                    stock: Number(stock || 0), 
                     strike_rate: strikeRate ? Number(strikeRate) : null,
                     gender: getSelectedGender(),
                     sizes,
@@ -951,6 +966,11 @@
                 document.getElementById('edit-product-rate').value =
                 product.rate;
 
+
+                document.getElementById('edit-product-stock').value =
+                product.stock || 0;
+
+
                 document.getElementById('edit-product-strike-rate').value =
                 product.strike_rate || '';
 
@@ -1062,6 +1082,9 @@
 
                 const name =
                     document.getElementById('edit-product-name').value.trim();
+                    const stock =
+                document.getElementById('edit-product-stock').value;
+
 
             const rate =
             document.getElementById('edit-product-rate').value;
@@ -1120,6 +1143,7 @@
                     .update({
                         name,
                         rate: Number(rate),
+                        stock: Number(stock || 0),
                         strike_rate: strikeRate ? Number(strikeRate) : null,
                         gender: getEditSelectedGender(),
                         sizes,
